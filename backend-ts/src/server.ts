@@ -14,13 +14,17 @@ const app = express();
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan("combined"));
 
-const allowedOrigins: string[] = ["http://localhost:5173", "http://127.0.0.1:5173"];
-if (process.env.FRONTEND_ORIGIN) {
-  allowedOrigins.push(process.env.FRONTEND_ORIGIN);
-}
+const vercelRegex = /^https:\/\/insight-board-dependency-engine(-[a-z0-9]+)?\.vercel\.app$/;
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      const allowed =
+        !origin ||
+        ["http://localhost:5173", "http://127.0.0.1:5173"].includes(origin) ||
+        vercelRegex.test(origin) ||
+        (process.env.FRONTEND_ORIGIN && origin === process.env.FRONTEND_ORIGIN);
+      callback(null, allowed);
+    },
     credentials: true
   })
 );
