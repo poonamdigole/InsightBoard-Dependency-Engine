@@ -5,3 +5,6 @@ services:
     rootDir: backend-ts
     buildCommand: npm install && npm run build
     startCommand: npm run prod
+    envVars:
+      - key: FRONTEND_ORIGIN
+        value: https://insight-board-dependency-engine-mgxwws13h.vercel.app

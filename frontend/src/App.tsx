@@ -26,9 +26,10 @@ export default function App() {
       setError("Please paste a meeting transcript before generating.");
       return;
     }
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:4000";
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:4000/api/parse", {
+      const res = await axios.post(`${apiUrl}/api/parse`, {
         transcript
       }, { timeout: 30000 });
       setTasks(res.data.tasks || []);
@@ -39,7 +40,7 @@ export default function App() {
         setError(`API error: ${e.response.status} ${e.response.data?.error || e.response.statusText}`);
       } else if (e.request) {
         // no response received
-        setError("Failed to connect to backend. Is the backend running at http://localhost:4000 ?");
+        setError(`Failed to connect to backend. Is the backend running at ${apiUrl}?`);
       } else {
         setError("Unexpected error: " + e.message);
       }
