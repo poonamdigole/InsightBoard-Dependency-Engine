@@ -25,6 +25,14 @@ app.use(
   })
 );
 
+app.get("/", (_req, res) => {
+  res.json({
+    name: "InsightBoard Dependency Engine API",
+    status: "running",
+    endpoints: { health: "/api/health", parse: "POST /api/parse", graph: "GET /api/graph/:id" }
+  });
+});
+
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
