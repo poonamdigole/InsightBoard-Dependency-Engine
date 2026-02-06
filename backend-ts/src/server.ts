@@ -14,11 +14,10 @@ const app = express();
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan("combined"));
 
-const allowedOrigins = [
-  process.env.FRONTEND_ORIGIN,
-  "http://localhost:5173",
-  "http://127.0.0.1:5173"
-].filter(Boolean);
+const allowedOrigins: string[] = ["http://localhost:5173", "http://127.0.0.1:5173"];
+if (process.env.FRONTEND_ORIGIN) {
+  allowedOrigins.push(process.env.FRONTEND_ORIGIN);
+}
 app.use(
   cors({
     origin: allowedOrigins,
