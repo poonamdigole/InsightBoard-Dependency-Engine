@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: insightboard-depengine-backend
+    runtime: node
+    rootDir: backend-ts
+    buildCommand: npm install && npm run build
+    startCommand: npm run prod
